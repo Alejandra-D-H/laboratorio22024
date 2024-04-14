@@ -108,3 +108,57 @@ jobs:
           name: artifact
           #From this path
           path: target/lab2-0.0.1-SNAPSHOT.jar
+
+  #Connect and Deploy
+  Deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build with Maven
+        run: mvn -B package -DskipTests --file pom.xml
+
+      - name: Transfer JAR to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          source: 'target/lab2-0.0.1-SNAPSHOT.jar'
+          target: '/path/to/your/application.jar'
+
+      - name: SSH into EC2 and restart application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            sudo systemctl restart your-application-service-name
+
+      - name: SSH into EC2 and pull latest changes
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            cd /path/to/your/repository
+            git pull origin main
