@@ -9,7 +9,7 @@ on:
       - master
 
 env:
-  applicationfolder: src
+  applicationfolder: laboratorio22024
   AWS_REGION: us-east-2
   S3BUCKET: lab2stack-webappdeploymentbucket-irgeddrye19n
 jobs:
@@ -139,8 +139,8 @@ jobs:
           #From this path
           path: target/lab2-0.0.1-SNAPSHOT.jar
 
-
-  deploy:
+  #Deploy's job
+  Deploy:
     needs: build
     runs-on: ubuntu-latest
     environment: Dev
