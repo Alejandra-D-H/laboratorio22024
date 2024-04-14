@@ -9,7 +9,7 @@ on:
       - master
 
 env:
-  applicationfolder: target
+  applicationfolder: src
   AWS_REGION: us-east-2
   S3BUCKET: lab2stack-webappdeploymentbucket-irgeddrye19n
 jobs:
