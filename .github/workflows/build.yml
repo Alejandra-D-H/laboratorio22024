@@ -134,7 +134,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        run: mvn -B package -DskipTests --file pom.xml
+        run: mvn clean package
 
       - name: Transfer JAR to EC2
         uses: appleboy/scp-action@master
