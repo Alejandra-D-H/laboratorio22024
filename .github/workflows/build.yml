@@ -144,7 +144,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: 'target/lab2-0.0.1-SNAPSHOT.jar'
-          target: '/path/to/your/application.jar'
+          target: '/home/ec2-user'
 
       - name: SSH into EC2 and restart application
         uses: appleboy/ssh-action@master
