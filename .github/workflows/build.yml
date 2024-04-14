@@ -6,7 +6,7 @@ on:
   #Trigger the workflow on push from the main branch
   push:
     branches:
-      - master
+      - main
 jobs:
   #Test's job
   tests:
@@ -34,44 +34,44 @@ jobs:
       - name: Run Tests
         run: mvn -B test
 
-#Sonar's Job
+  #Sonar's Job
   sonar:
-   #Depends on test's job
-   needs: tests
-   name: SonarCloud analysis
-   #Run on Ubuntu using the latest version
-   runs-on: ubuntu-latest
-   #Job's steps
-   steps:
-     #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
-     - uses: actions/checkout@v1
-     #Set up JDK 11
-     - name: Set up JDK
-       uses: actions/setup-java@v1
-       with:
-         java-version: '17'
+    #Depends on test's job
+    needs: tests
+    name: SonarCloud analysis
+    #Run on Ubuntu using the latest version
+    runs-on: ubuntu-latest
+    #Job's steps
+    steps:
+      #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      - uses: actions/checkout@v1
+      #Set up JDK 11
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
       #Set up SonarCloud cache
-     - name: Cache SonarCloud packages
-       #This action allows caching dependencies and build outputs to improve workflow execution time.
-       uses: actions/cache@v1
-       with:
-         path: ~/.sonar/cache
-         key: ${{ runner.os }}-sonar
-         restore-keys: ${{ runner.os }}-sonar
-     #Set up Maven cache
-     - name: Cache Maven packages
-       #This action allows caching dependencies and build outputs to improve workflow execution time.
-       uses: actions/cache@v1
-       with:
-         path: ~/.m2
-         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-         restore-keys: ${{ runner.os }}-m2
-     #Analyze project with SonarCloud
-     - name: Analyze with SonarCloud
-       run: mvn -B verify sonar:sonar -Dsonar.projectKey=Alejandra-D-H_laboratorio22024 -Dsonar.organization=alejandra-d-h -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Cache SonarCloud packages
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      #Set up Maven cache
+      - name: Cache Maven packages
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      #Analyze project with SonarCloud
+      - name: Analyze with SonarCloud
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=Alejandra-D-H_laboratorio22024 -Dsonar.organization=alejandra-d-h -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   #Build's job
   build:
@@ -107,35 +107,6 @@ jobs:
           #Set artifact name
           name: artifact
           #From this path
-          path: target/laboratorio2-0.0.1-SNAPSHOT.jar
-#
-#      - name: Transfer JAR to EC2
-#        uses: appleboy/scp-action@master
-#        with:
-#          host: ${{ secrets.EC2_HOST }}
-#          username: ${{ secrets.EC2_USERNAME }}
-#          key: ${{ secrets.EC2_PRIVATE_KEY }}
-#          port: ${{ secrets.EC2_PORT }}
-#          source: 'target/laboratorio2-0.0.1-SNAPSHOT.jar'
-#          target: '/home/ec2-user'
-#
-#      - name: SSH into EC2 and restart application
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.EC2_HOST }}
-#          username: ${{ secrets.EC2_USERNAME }}
-#          key: ${{ secrets.EC2_PRIVATE_KEY }}
-#          port: ${{ secrets.EC2_PORT }}
-#          script: |
-#            sudo systemctl restart your-application-service-name
-#
-#      - name: SSH into EC2 and pull latest changes
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.EC2_HOST }}
-#          username: ${{ secrets.EC2_USERNAME }}
-#          key: ${{ secrets.EC2_PRIVATE_KEY }}
-#          port: ${{ secrets.EC2_PORT }}
-#          script: |
-#            cd /path/to/your/repository
-#            git pull origin main
+          path: target/lab2-0.0.1-SNAPSHOT.jar
+
+
