@@ -1,4 +1,5 @@
 
+[![CI/CD Pipeline](https://github.com/Alejandra-D-H/laboratorio22024/actions/workflows/build.yml/badge.svg)](https://github.com/Alejandra-D-H/laboratorio22024/actions/workflows/build.yml)
 
 Implementation of a Simple App with the next operations:
 
