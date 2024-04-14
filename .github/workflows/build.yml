@@ -133,12 +133,13 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Access directory
-        run: ls ${{ github.workspace }}
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
         #working-directory: target
+
+      - name: Access directory
+        run: ls ${{ github.workspace }}
 
 
       - name: Transfer JAR to EC2
