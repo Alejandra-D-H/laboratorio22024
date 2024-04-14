@@ -109,4 +109,26 @@ jobs:
           #From this path
           path: target/laboratorio2-0.0.1-SNAPSHOT.jar
 
+  #Deploy's Job
+  deploy:
+    needs: build
+    name: Deploy
+    #Run on Ubuntu using the latest version
+    runs-on: ubuntu-latest
+    steps:
+      #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      - uses: actions/checkout@v1
+      #Set up JDK 11
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Execute Jar File
+        #While executing Jar file, kill port 80 if anything is running on it
+        run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/laboratorio22024/laboratorio22024/target/laboratorio2-0.0.1-SNAPSHOT.jar.jar &
+
+
 
