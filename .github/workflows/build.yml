@@ -114,6 +114,7 @@ jobs:
 
   #Connect and Deploy
   Deploy:
+    needs: build
     name: Deploy to EC2
     runs-on: ubuntu-latest
     steps:
