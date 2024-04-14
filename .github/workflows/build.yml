@@ -135,6 +135,8 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package
+        working-directory: laboratorio22024
+
 
       - name: Transfer JAR to EC2
         uses: appleboy/scp-action@master
