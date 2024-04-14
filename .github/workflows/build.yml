@@ -7,6 +7,11 @@ on:
   push:
     branches:
       - master
+
+permissions:
+  id-token: write
+  contents: read
+
 env:
   #applicationfolder: laboratorio22024
   AWS_REGION: us-east-2
