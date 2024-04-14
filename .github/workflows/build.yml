@@ -134,7 +134,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Access directory
-        run: ls "${{ github.workspace }}/laboratorio2024"
+        run: ls
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
