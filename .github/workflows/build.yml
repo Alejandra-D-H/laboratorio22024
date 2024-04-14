@@ -6,7 +6,11 @@ on:
   #Trigger the workflow on push from the main branch
   push:
     branches:
-      - mi-rama
+      - master
+env:
+  applicationfolder: laboratorio22024
+  AWS_REGION: us-east-2
+  S3BUCKET: lab2stack-webappdeploymentbucket-irgeddrye19n
 jobs:
   #Test's job
   tests:
@@ -108,3 +112,18 @@ jobs:
           name: artifact
           #From this path
           path: target/lab2-0.0.1-SNAPSHOT.jar
+
+      #Set up Maven cache
+      - name: Deploy to AWS
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
+          role-session-name: GitHub-Action-Role
+          aws-region: ${{ env.AWS_REGION }}
+          #Build the application using Maven
+      - name: deploy
+        run: |
+          echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
+          commit_hash=`git rev-parse HEAD`
+          aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
