@@ -125,7 +125,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-
+      #Set up Maven cache
+      - name: Cache Maven packages
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+        #Build the application using Maven
+      - name: Build with Maven
+        run: mvn -B package -DskipTests --file pom.xml
+        #Ejecutar Jar <3
       - name: Execute Jar File
         #While executing Jar file, kill port 80 if anything is running on it
         run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/laboratorio22024/laboratorio22024/target/laboratorio2-0.0.1-SNAPSHOT.jar.jar &
