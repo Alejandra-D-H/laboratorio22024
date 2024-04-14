@@ -136,7 +136,7 @@ jobs:
         #Build the application using Maven
       - name: Build with Maven
         run: mvn -B package -DskipTests --file pom.xml
-        #Ejecutar Jar <3
+        #Execute Jar <3
       - name: Execute Jar File
         #While executing Jar file, kill port 80 if anything is running on it
         run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/laboratorio22024/laboratorio22024/target/laboratorio2-0.0.1-SNAPSHOT.jar &
